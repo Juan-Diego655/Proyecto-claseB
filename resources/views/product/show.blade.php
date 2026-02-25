@@ -20,10 +20,7 @@
       </div>
     </div>
 
-    <nav class="nav-links">
-      <a href="/product/">Inicio</a>
-      <a href="/product/create">Crear Producto</a>
-    </nav>
+    @include('layout.navbar')
   </div>
 </header>
 
@@ -64,10 +61,7 @@
   </section>
 </main>
 
-<footer class="footer">
-  <p>© 2026 TechMarket - Todos los derechos reservados</p>
-  <p>Proyecto académico</p>
-</footer>
+    @include('layout.footer')
 
 <script>
 const STORAGE_KEY = "techmarket_products_v1";

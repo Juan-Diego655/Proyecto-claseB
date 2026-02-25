@@ -20,10 +20,7 @@
       </div>
     </div>
 
-    <nav class="nav-links">
-      <a href="">Inicio</a>
-      <a href="create">Crear Producto</a>
-    </nav>
+    @include('layout.navbar')
 
     <div class="actions">
       <div class="pill">🛍️ Carrito: <strong id="cartCount">0</strong></div>
@@ -50,10 +47,7 @@
   </div>
 </main>
 
-<footer class="footer">
-  <p>© 2026 TechMarket - Todos los derechos reservados</p>
-  <p>Proyecto académico</p>
-</footer>
+    @include('layout.footer')
 
 <script>
 /* ===== Helpers: imágenes SVG embebidas como data URL ===== */
