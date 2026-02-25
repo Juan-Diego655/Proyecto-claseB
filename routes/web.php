@@ -6,12 +6,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class);
 
-Route::get('/product', [ProductController::class, 'index']);
+Route::prefix('product')->controller(ProductController::class)->group(function (){
 
-Route::get('/product/create',[ProductController::class, 'create']);
+Route::get('/','index');
+Route::get('/create','create');
+Route::get('/{producto}','show');
 
-//rutas dinamicas
-
-Route::get('/product/{producto}', [ProductController::class, 'show']);
+});
 
 
