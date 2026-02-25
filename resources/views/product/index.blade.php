@@ -1,38 +1,13 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>TechMarket - Inicio</title>
+@extends('layout.app')
 
-<link rel="stylesheet" href="{{ asset('css/style.css') }}">
-</head>
+@section('title','TechMarket - Productos')
 
-<body>
-
-<header class="topbar">
-  <div class="topbar-inner">
-    <div class="logo">
-      <div class="logo-badge">🛒</div>
-      <div>
-        <div>TechMarket</div>
-        <div style="font-size:12px;opacity:.9;">Tu súper de tecnología</div>
-      </div>
-    </div>
-
-    @include('layout.navbar')
-
-    <div class="actions">
-      <div class="pill">🛍️ Carrito: <strong id="cartCount">0</strong></div>
-    </div>
-  </div>
-</header>
-
-<main class="container">
+@section('content')
+<div class="container">
   <div class="header-row">
     <div>
       <h2>Productos Tecnológicos</h2>
-      <p class="small">Clic en el nombre o la imagen para ver detalles. Los productos nuevos se guardan en LocalStorage.</p>
+      <p class="small">Clic en el nombre o la imagen para ver detalles.</p>
     </div>
     <div class="tools">
       <input id="search" type="search" placeholder="Buscar por nombre..." />
@@ -45,12 +20,11 @@
   <div id="empty" class="empty" style="display:none;">
     No hay productos para mostrar.
   </div>
-</main>
+</div>
+@endsection
 
-    @include('layout.footer')
-
+@push('scripts')
 <script>
-/* ===== Helpers: imágenes SVG embebidas como data URL ===== */
 function svgDataUrl(svgString){
   return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svgString);
 }
@@ -67,10 +41,7 @@ function demoImage(type){
     <rect width="900" height="520" rx="34" fill="url(#g)"/>
     <text x="60" y="90" font-family="Arial" font-size="42" font-weight="800" fill="#1f2937">${title}</text>
     <text x="60" y="140" font-family="Arial" font-size="24" fill="#6b7280">${subtitle}</text>
-    <g transform="translate(0,0)">
-      <!-- marco -->
-      <rect x="70" y="180" width="760" height="290" rx="26" fill="#ffffff" stroke="#e5e7eb" stroke-width="10"/>
-    </g>
+    <rect x="70" y="180" width="760" height="290" rx="26" fill="#ffffff" stroke="#e5e7eb" stroke-width="10"/>
   </svg>`;
 
   const audio = `
@@ -136,52 +107,16 @@ function demoImage(type){
   return svgDataUrl(map[type] || common("Producto", "TechMarket"));
 }
 
-/* ===== Storage ===== */
 const STORAGE_KEY = "techmarket_products_v1";
 const CART_KEY = "techmarket_cart_count_v1";
 
 function getDefaultProducts(){
   return [
-    {
-      id_producto: 101,
-      nombre: "Audífonos Bluetooth NoiseLite",
-      precio: 199900,
-      descripcion: "Cancelación de ruido, 40h batería, micrófono dual.",
-      imagen: demoImage("audio"),
-      estado: "activo"
-    },
-    {
-      id_producto: 102,
-      nombre: "Teclado Mecánico RGB Switch Red",
-      precio: 169900,
-      descripcion: "Hot-swap, anti-ghosting, iluminación personalizable.",
-      imagen: demoImage("keyboard"),
-      estado: "activo"
-    },
-    {
-      id_producto: 103,
-      nombre: "Mouse Inalámbrico ErgoGrip 2.4G",
-      precio: 89900,
-      descripcion: "Ergonómico, DPI ajustable, recargable USB-C.",
-      imagen: demoImage("mouse"),
-      estado: "activo"
-    },
-    {
-      id_producto: 104,
-      nombre: "Power Bank 20.000mAh TurboCharge",
-      precio: 119900,
-      descripcion: "Carga rápida PD, 2 USB + USB-C, pantalla LED.",
-      imagen: demoImage("powerbank"),
-      estado: "activo"
-    },
-    {
-      id_producto: 105,
-      nombre: "Cámara Wi-Fi 1080p VisionCam Mini",
-      precio: 139900,
-      descripcion: "Detección movimiento, audio 2 vías, visión nocturna.",
-      imagen: demoImage("camera"),
-      estado: "activo"
-    }
+    { id_producto: 101, nombre:"Audífonos Bluetooth NoiseLite", precio:199900, descripcion:"Cancelación de ruido, 40h batería, micrófono dual.", imagen: demoImage("audio"), estado:"activo" },
+    { id_producto: 102, nombre:"Teclado Mecánico RGB Switch Red", precio:169900, descripcion:"Hot-swap, anti-ghosting, iluminación personalizable.", imagen: demoImage("keyboard"), estado:"activo" },
+    { id_producto: 103, nombre:"Mouse Inalámbrico ErgoGrip 2.4G", precio:89900, descripcion:"Ergonómico, DPI ajustable, recargable USB-C.", imagen: demoImage("mouse"), estado:"activo" },
+    { id_producto: 104, nombre:"Power Bank 20.000mAh TurboCharge", precio:119900, descripcion:"Carga rápida PD, 2 USB + USB-C, pantalla LED.", imagen: demoImage("powerbank"), estado:"activo" },
+    { id_producto: 105, nombre:"Cámara Wi-Fi 1080p VisionCam Mini", precio:139900, descripcion:"Detección movimiento, audio 2 vías, visión nocturna.", imagen: demoImage("camera"), estado:"activo" },
   ];
 }
 
@@ -199,23 +134,18 @@ function loadProducts(){
     return getDefaultProducts();
   }
 }
-
 function saveProducts(products){
   localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
 }
-
 function formatCOP(value){
-  // formatea estilo colombiano sin depender de Intl (por si acaso)
   const n = Math.round(Number(value) || 0);
   return "$" + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
-/* ===== UI Render ===== */
 const grid = document.getElementById("grid");
 const empty = document.getElementById("empty");
 const search = document.getElementById("search");
 const resetBtn = document.getElementById("resetData");
-const cartCountEl = document.getElementById("cartCount");
 
 let products = loadProducts();
 
@@ -231,10 +161,11 @@ function render(list){
     const estado = (p.estado || "").toLowerCase();
     const isActive = estado === "activo";
 
-    const detailUrl = `producto.html?id=${encodeURIComponent(p.id_producto)}`;
+    // 🔥 Laravel show: /product/{id}
+    const detailUrl = `/product/${encodeURIComponent(p.id_producto)}`;
 
     const card = document.createElement("article");
-    card.className = "card";
+    card.className = "card product-card";
     card.innerHTML = `
       <div class="thumb">
         <a href="${detailUrl}" title="Ver detalles">
@@ -271,35 +202,6 @@ function applySearch(){
   render(filtered);
 }
 
-/* ===== Cart demo ===== */
-function loadCartCount(){
-  const raw = localStorage.getItem(CART_KEY);
-  const n = Number(raw);
-  return Number.isFinite(n) ? n : 0;
-}
-function saveCartCount(n){
-  localStorage.setItem(CART_KEY, String(n));
-}
-let cartCount = loadCartCount();
-cartCountEl.textContent = cartCount;
-
-document.addEventListener("click", (e) => {
-  const btn = e.target.closest("[data-add]");
-  if(!btn) return;
-
-  const id = btn.getAttribute("data-add");
-  const prod = products.find(p => String(p.id_producto) === String(id));
-  if(!prod) return;
-
-  const estado = (prod.estado || "").toLowerCase();
-  if(estado !== "activo") return;
-
-  cartCount++;
-  saveCartCount(cartCount);
-  cartCountEl.textContent = cartCount;
-});
-
-/* ===== Events ===== */
 search.addEventListener("input", applySearch);
 
 resetBtn.addEventListener("click", () => {
@@ -310,9 +212,6 @@ resetBtn.addEventListener("click", () => {
   applySearch();
 });
 
-/* init */
 render(products);
 </script>
-
-</body>
-</html>
+@endpush
