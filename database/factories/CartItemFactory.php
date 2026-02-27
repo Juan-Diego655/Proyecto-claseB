@@ -1,0 +1,24 @@
+<?php
+
+namespace Database\Factories;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Product;
+use App\Models\CartItem;
+use App\Models\User;
+
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
+ */
+class CartItemFactory extends Factory
+{
+    protected $model = CartItem::class;
+    public function definition(): array
+    {
+        return [
+            'user_id' => User::inRandomOrder()->first()->id,
+            'product_id' => Product::inRandomOrder()->first()->id,
+            'quantity' => fake()->numberBetween(1, 10), 
+        ];
+    }
+}
