@@ -25,7 +25,7 @@
       </a>
       <div class="card-body">
         <div class="card-meta">
-          <span>ID: 101</span>
+          <span>{{$product->id}}</span>
           <span class="badge active">Activo</span>
         </div>
         <a class="card-name" href="/product/101">{{$product->name}}</a>
