@@ -21,7 +21,12 @@
     @foreach ($misProductos as $product)
       <div class="card product-card">
       <a class="card-img" href="/product/101">
-        <img src="https://placehold.co/600x400/eef2ff/1d4ed8?text=Producto" alt="Audífonos Bluetooth NoiseLite">
+        @if ($product->image)
+          <img src="{{ asset('storage/'. $product->image) }}" alt = "">
+        @else
+          <img src="https://media.istockphoto.com/id/846183008/es/vector/%C3%ADcono-de-perfil-de-avatar-por-defecto-marcador-de-posici%C3%B3n-de-foto-gris.jpg?s=612x612&w=0&k=20&c=CLZoOwpSgoDpY_4ELU9OaY23p0B0mwjXCfbiyc7g9u4=" alt = "">
+        @endif
+        
       </a>
       <div class="card-body">
         <div class="card-meta">
