@@ -40,6 +40,11 @@
       <div class="card-footer">
         <button class="btn btn-primary">Agregar</button>
         <a class="btn btn-ghost" href="/product/101">Ver</a>
+        <form action="{{ route('product.destroy', $product) }}" method="POST">
+          @method('delete')
+          @csrf
+          <button class="btn btn-ghost" style="flex:1; max-width:65px;">Eliminar</button>
+        </form>
       </div>
     </div>
     @endforeach

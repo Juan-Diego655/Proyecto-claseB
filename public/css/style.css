@@ -304,6 +304,8 @@ body{
   gap:10px;
 }
 
+
+
 .empty{
   background:#fff;
   border:1px dashed var(--border);
