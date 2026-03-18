@@ -1,37 +1,40 @@
 @extends('layout.app')
 
-@section('title','Detalle del producto')
+@section('title', $producto->name)
 
 @section('content')
 <div class="container">
 
-  <div id="notFound" class="card" style="display:none;">
-    <div class="notice">
-      <h2>Producto no encontrado</h2>
-      <a class="btn btn-ghost" href="/product/">Volver al listado</a>
-    </div>
-  </div>
-
-  <section id="detail" class="detail" style="display:none;">
+  <section class="detail">
     <div class="card">
       <div class="image-box">
-        <img id="img" />
+        @if($producto->image)
+          <img src="{{ asset('storage/' . $producto->image) }}" alt="{{ $producto->name }}">
+        @else
+          <img src="https://media.istockphoto.com/id/846183008/es/vector/%C3%ADcono-de-perfil-de-avatar-por-defecto-marcador-de-posici%C3%B3n-de-foto-gris.jpg?s=612x612&w=0&k=20&c=CLZoOwpSgoDpY_4ELU9OaY23p0B0mwjXCfbiyc7g9u4=" alt="Sin imagen">
+        @endif
       </div>
     </div>
 
     <div class="card">
       <div class="info">
-        <h1 id="name"></h1>
+        <h1>{{ $producto->name }}</h1>
 
-        <div class="meta">
-          <span>ID: <strong id="pid"></strong></span>
-          <span id="statusBadge" class="badge"></span>
+        <div class="card-meta" style="margin-bottom:12px;">
+          <span>ID: <strong>{{ $producto->id }}</strong></span>
+          <span class="badge active">Activo</span>
         </div>
 
-        <p id="desc" class="desc"></p>
-        <div id="price" class="price"></div>
+        <p class="card-desc" style="margin-bottom:18px;">
+          {{ $producto->description }}
+        </p>
 
-        <div style="margin-top:15px;">
+        <div class="card-price" style="font-size:24px; margin-bottom:20px;">
+          ${{ number_format($producto->price, 0, ',', '.') }}
+        </div>
+
+        <div class="row-actions">
+          <button class="btn btn-primary">Agregar al carrito</button>
           <a class="btn btn-ghost" href="/product/">Volver</a>
         </div>
       </div>
@@ -40,51 +43,3 @@
 
 </div>
 @endsection
-
-@push('scripts')
-<script>
-const STORAGE_KEY = "techmarket_products_v1";
-
-/* 🔥 Obtener ID directamente de la URL */
-const pathParts = window.location.pathname.split("/");
-const productId = pathParts[pathParts.length - 1];
-
-function loadProducts(){
-  const raw = localStorage.getItem(STORAGE_KEY);
-  if(!raw) return [];
-  try{
-    return JSON.parse(raw);
-  }catch{
-    return [];
-  }
-}
-
-function formatCOP(value){
-  const n = Math.round(Number(value) || 0);
-  return "$" + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-}
-
-const products = loadProducts();
-const product = products.find(p => String(p.id_producto) === String(productId));
-
-const notFound = document.getElementById("notFound");
-const detail = document.getElementById("detail");
-
-if(!product){
-  notFound.style.display = "block";
-} else {
-  detail.style.display = "grid";
-
-  document.getElementById("img").src = product.imagen;
-  document.getElementById("name").textContent = product.nombre;
-  document.getElementById("pid").textContent = product.id_producto;
-  document.getElementById("desc").textContent = product.descripcion;
-  document.getElementById("price").textContent = formatCOP(product.precio);
-
-  const badge = document.getElementById("statusBadge");
-  const active = (product.estado || "").toLowerCase() === "activo";
-  badge.textContent = active ? "Activo" : "Inactivo";
-  badge.classList.add(active ? "active" : "inactive");
-}
-</script>
-@endpush

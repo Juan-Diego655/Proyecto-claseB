@@ -20,36 +20,50 @@
 
     @foreach ($misProductos as $product)
       <div class="card product-card">
-      <a class="card-img" href="/product/101">
-        @if ($product->image)
-          <img src="{{ asset('storage/'. $product->image) }}" alt = "">
-        @else
-          <img src="https://media.istockphoto.com/id/846183008/es/vector/%C3%ADcono-de-perfil-de-avatar-por-defecto-marcador-de-posici%C3%B3n-de-foto-gris.jpg?s=612x612&w=0&k=20&c=CLZoOwpSgoDpY_4ELU9OaY23p0B0mwjXCfbiyc7g9u4=" alt = "">
-        @endif
-        
-      </a>
-      <div class="card-body">
-        <div class="card-meta">
-          <span>{{$product->id}}</span>
-          <span class="badge active">Activo</span>
+
+        <a class="card-img" href="/product/{{ $product->id }}">
+          @if ($product->image)
+            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
+          @else
+            <img src="https://media.istockphoto.com/id/846183008/es/vector/%C3%ADcono-de-perfil-de-avatar-por-defecto-marcador-de-posici%C3%B3n-de-foto-gris.jpg?s=612x612&w=0&k=20&c=CLZoOwpSgoDpY_4ELU9OaY23p0B0mwjXCfbiyc7g9u4=" alt="Sin imagen">
+          @endif
+        </a>
+
+        <div class="card-body">
+          <div class="card-meta">
+            <span>{{ $product->id }}</span>
+            <span class="badge active">Activo</span>
+          </div>
+
+          <a class="card-name" href="/product/{{ $product->id }}">
+            {{ $product->name }}
+          </a>
+
+          <p class="card-desc">{{ $product->description }}</p>
+
+          <div class="card-price">
+            ${{ number_format($product->price, 0, ',', '.') }}
+          </div>
         </div>
-        <a class="card-name" href="/product/101">{{$product->name}}</a>
-        <p class="card-desc">{{$product->description}}</p>
-        <div class="card-price">{{$product->price}}</div>
+
+        <div class="card-footer">
+          <button class="btn btn-primary">Agregar</button>
+
+          <a class="btn btn-ghost" href="/product/{{ $product->id }}">
+            Ver
+          </a>
+
+          <form action="{{ route('product.destroy', $product) }}" method="POST">
+            @method('DELETE')
+            @csrf
+            <button type="submit" class="btn btn-ghost" style="flex:1; max-width:65px;">
+              Elim.
+            </button>
+          </form>
+        </div>
+
       </div>
-      <div class="card-footer">
-        <button class="btn btn-primary">Agregar</button>
-        <a class="btn btn-ghost" href="/product/101">Ver</a>
-        <form action="{{ route('product.destroy', $product) }}" method="POST">
-          @method('delete')
-          @csrf
-          <button class="btn btn-ghost" style="flex:1; max-width:65px;">Eliminar</button>
-        </form>
-      </div>
-    </div>
     @endforeach
-
-
 
   </div>
 
@@ -65,9 +79,9 @@
   const emptyState  = document.getElementById('empty');
 
   searchInput.addEventListener('input', () => {
-    const query   = searchInput.value.trim().toLowerCase();
-    const cards   = document.querySelectorAll('.product-card');
-    let   visible = 0;
+    const query = searchInput.value.trim().toLowerCase();
+    const cards = document.querySelectorAll('.product-card');
+    let visible = 0;
 
     cards.forEach(card => {
       const name = card.querySelector('.card-name').textContent.toLowerCase();

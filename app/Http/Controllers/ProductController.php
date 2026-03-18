@@ -8,17 +8,17 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index(){
+    public function index()
+    {
+        $productList = Product::limit(10)->orderBy('id', 'desc')->get();
 
-
-        $productList =Product::limit(10)->orderBy('id', 'desc')->get();
         return view('product.index', [
-        'misProductos' => $productList
-        ]);   
+            'misProductos' => $productList
+        ]);
     }
 
-    public function create(){
-
+    public function create()
+    {
         $categoryList = Category::all();
 
         return view('product.create', [
@@ -26,9 +26,8 @@ class ProductController extends Controller
         ]);
     }
 
-    public function store(Request $request){
-
-        //VALIDACON
+    public function store(Request $request)
+    {
         $request->validate([
             'nombre' => 'required|min:5|max:250',
             'precio' => 'required|numeric',
@@ -37,22 +36,16 @@ class ProductController extends Controller
             'categoria' => 'required|exists:categories,id'
         ]);
 
-
-
-
-        //dd($request->all());
-
         $newProduct = new Product();
         $newProduct->name = $request->get('nombre');
         $newProduct->description = $request->get('descripcion');
         $newProduct->price = $request->get('precio');
-        $newProduct->category_id = $request->get('estado');
+        $newProduct->category_id = $request->get('categoria');
         $newProduct->id = $request->get('id_producto');
 
-        if($request->hasFile('imagen')){
+        if ($request->hasFile('imagen')) {
             $ruta = $request->file('imagen')->store('images', 'public');
             $newProduct->image = $ruta;
-
         }
 
         $newProduct->save();
@@ -60,11 +53,15 @@ class ProductController extends Controller
         return redirect()->route('product.index');
     }
 
-    public function show($producto){
-        return view('product.show');
+    public function show(Product $producto)
+    {
+        return view('product.show', [
+            'producto' => $producto
+        ]);
     }
 
-    public function destroy(Product $product){
+    public function destroy(Product $product)
+    {
         $product->delete();
         return redirect()->route('product.index');
     }

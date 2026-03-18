@@ -70,36 +70,31 @@
   <div class="container">
     <div class="section-head">
       <h2>Productos destacados</h2>
-      <p class="small">Una muestra de lo que puedes encontrar en TechMarket.</p>
+      <p class="small">Una muestra real del catálogo de TechMarket.</p>
     </div>
 
     <div class="landing-grid">
-      <article class="card landing-card">
-        <div class="landing-img">🎧</div>
-        <div class="landing-body">
-          <h3>Audífonos Bluetooth</h3>
-          <p>Ideal para música, clases virtuales y trabajo remoto.</p>
-          <span class="card-price">$199.900</span>
-        </div>
-      </article>
+      @foreach($featuredProducts as $product)
+        <article class="card landing-card">
+          <div class="landing-img" style="padding:20px;">
+            @if($product->image)
+              <img
+                src="{{ asset('storage/' . $product->image) }}"
+                alt="{{ $product->name }}"
+                style="width:100%; height:100%; object-fit:contain;"
+              >
+            @else
+              <span style="font-size:64px;">📦</span>
+            @endif
+          </div>
 
-      <article class="card landing-card">
-        <div class="landing-img">⌨️</div>
-        <div class="landing-body">
-          <h3>Teclado Mecánico RGB</h3>
-          <p>Comodidad, estilo y rendimiento para tu setup.</p>
-          <span class="card-price">$169.900</span>
-        </div>
-      </article>
-
-      <article class="card landing-card">
-        <div class="landing-img">🔋</div>
-        <div class="landing-body">
-          <h3>Power Bank</h3>
-          <p>Energía extra para mantener tus dispositivos siempre listos.</p>
-          <span class="card-price">$119.900</span>
-        </div>
-      </article>
+          <div class="landing-body">
+            <h3>{{ $product->name }}</h3>
+            <p>{{ $product->description }}</p>
+            <span class="card-price">${{ number_format($product->price, 0, ',', '.') }}</span>
+          </div>
+        </article>
+      @endforeach
     </div>
   </div>
 </section>
