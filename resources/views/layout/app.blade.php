@@ -21,15 +21,23 @@
     </div>
 
     <nav class="nav-links">
-      <a href="/product/">Inicio</a>
+      <a href="/">Inicio</a>
+      <a href="/product/">Productos</a>
       <a href="/product/create">Crear Producto</a>
     </nav>
 
-    @hasSection('actions')
-      <div class="actions">
+    <div class="actions">
+      <a href="{{ route('cart.index') }}" class="cart-link">
+        <span class="cart-icon">🛒</span>
+        @if(($cartCount ?? 0) > 0)
+          <span class="cart-badge">{{ $cartCount }}</span>
+        @endif
+      </a>
+
+      @hasSection('actions')
         @yield('actions')
-      </div>
-    @endif
+      @endif
+    </div>
   </div>
 </header>
 

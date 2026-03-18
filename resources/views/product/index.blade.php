@@ -16,6 +16,18 @@
     </div>
   </div>
 
+  @if(session('success'))
+    <div class="card" style="padding:14px; margin-bottom:16px; color:#166534; background:rgba(22,163,74,.08); border:1px solid rgba(22,163,74,.2);">
+      {{ session('success') }}
+    </div>
+  @endif
+
+  @if(session('error'))
+    <div class="card" style="padding:14px; margin-bottom:16px; color:#991b1b; background:rgba(239,68,68,.08); border:1px solid rgba(239,68,68,.2);">
+      {{ session('error') }}
+    </div>
+  @endif
+
   <div class="grid" id="grid">
 
     @foreach ($misProductos as $product)
@@ -47,7 +59,10 @@
         </div>
 
         <div class="card-footer">
-          <button class="btn btn-primary">Agregar</button>
+          <form action="{{ route('cart.add', $product) }}" method="POST" style="margin:0;">
+            @csrf
+            <button type="submit" class="btn btn-primary">Agregar</button>
+          </form>
 
           <a class="btn btn-ghost" href="/product/{{ $product->id }}">
             Ver

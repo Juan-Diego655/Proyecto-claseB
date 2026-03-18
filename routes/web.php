@@ -18,6 +18,10 @@ Route::delete('/{product}', 'destroy')->name('product.destroy');
 
 });
 
+Route::get('/cart', [ProductController::class, 'cart'])->name('cart.index');
+Route::post('/cart/add/{product}', [ProductController::class, 'addToCart'])->name('cart.add');
+Route::delete('/cart/remove/{cartItem}', [ProductController::class, 'removeFromCart'])->name('cart.remove');
+
 Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
 Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
 Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
