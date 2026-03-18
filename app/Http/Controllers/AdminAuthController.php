@@ -39,28 +39,28 @@ class AdminAuthController extends Controller
     }
 
     public function dashboard()
-{
-    if (!Auth::check()) {
-        $user = User::first();
+    {
+        if (!Auth::check()) {
+            $user = User::first();
 
-        if ($user) {
-            Auth::login($user);
-            request()->session()->regenerate();
+            if ($user) {
+                Auth::login($user);
+                request()->session()->regenerate();
+            }
         }
+
+        $recentProducts = Product::latest()->take(5)->get();
+        $totalProducts = Product::count();
+        $totalCategories = Category::count();
+        $lastProduct = Product::latest()->first();
+
+        return view('admin.dashboard', [
+            'recentProducts' => $recentProducts,
+            'totalProducts' => $totalProducts,
+            'totalCategories' => $totalCategories,
+            'lastProductName' => $lastProduct ? $lastProduct->name : 'Sin registros'
+        ]);
     }
-
-    $recentProducts = Product::latest()->take(5)->get();
-    $totalProducts = Product::count();
-    $totalCategories = Category::count();
-    $lastProduct = Product::latest()->first();
-
-    return view('admin.dashboard', [
-        'recentProducts' => $recentProducts,
-        'totalProducts' => $totalProducts,
-        'totalCategories' => $totalCategories,
-        'lastProductName' => $lastProduct ? $lastProduct->name : 'Sin registros'
-    ]);
-}
 
     public function logout(Request $request)
     {

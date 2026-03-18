@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>@yield('title', 'Panel Admin - TechMarket')</title>
+
   <link rel="stylesheet" href="{{ asset('css/style.css') }}">
   @stack('styles')
 </head>
@@ -21,7 +22,10 @@
 
     <nav class="nav-links">
       <a href="/admin">Dashboard</a>
-      <a href="/product/">Ver tienda</a>
+      <a href="{{ route('categories.index') }}">Categorías</a>
+      <a href="/product/">Productos</a>
+      <a href="/product/create">Crear producto</a>
+      <a href="/">Tienda</a>
     </nav>
 
     <div class="actions">

@@ -10,13 +10,13 @@
       <span class="admin-badge">Panel de administración</span>
       <h1>Bienvenido a TechMarket Admin</h1>
       <p>
-        Gestiona productos, revisa el estado general de la tienda y accede
-        rápidamente a las funciones principales del sistema.
+        Desde aquí puedes gestionar productos, categorías y revisar el estado
+        general de tu ecommerce de tecnología.
       </p>
 
       <div class="admin-hero-actions">
         <a href="/product/create" class="btn btn-primary">+ Crear producto</a>
-        <a href="/product/" class="btn btn-ghost">Ver tienda</a>
+        <a href="{{ route('categories.create') }}" class="btn btn-ghost">+ Crear categoría</a>
       </div>
     </div>
 
@@ -25,12 +25,14 @@
         <span>Total productos</span>
         <strong>{{ $totalProducts ?? 0 }}</strong>
       </div>
+
       <div class="mini-stat">
-        <span>Categorías</span>
+        <span>Total categorías</span>
         <strong>{{ $totalCategories ?? 0 }}</strong>
       </div>
+
       <div class="mini-stat">
-        <span>Último ingreso</span>
+        <span>Último producto</span>
         <strong>{{ $lastProductName ?? 'Sin registros' }}</strong>
       </div>
     </div>
@@ -48,7 +50,7 @@
     <div class="card stat-card">
       <div class="stat-icon">🗂️</div>
       <div>
-        <p class="stat-label">Categorías</p>
+        <p class="stat-label">Categorías registradas</p>
         <h3>{{ $totalCategories ?? 0 }}</h3>
       </div>
     </div>
@@ -56,13 +58,13 @@
     <div class="card stat-card">
       <div class="stat-icon">🆕</div>
       <div>
-        <p class="stat-label">Último producto</p>
+        <p class="stat-label">Último producto agregado</p>
         <h3 style="font-size:18px;">{{ $lastProductName ?? 'No disponible' }}</h3>
       </div>
     </div>
 
     <div class="card stat-card">
-      <div class="stat-icon">⚙️</div>
+      <div class="stat-icon">✅</div>
       <div>
         <p class="stat-label">Estado del panel</p>
         <h3>Activo</h3>
@@ -74,7 +76,7 @@
     <div class="card admin-actions-card">
       <div class="section-head">
         <h2>Acciones rápidas</h2>
-        <p class="small">Funciones clave del administrador.</p>
+        <p class="small">Accesos directos para gestionar el sistema.</p>
       </div>
 
       <div class="quick-actions-grid">
@@ -82,31 +84,31 @@
           <span class="quick-icon">➕</span>
           <div>
             <strong>Crear producto</strong>
-            <p>Agregar un nuevo producto al catálogo.</p>
+            <p>Agrega un nuevo producto al catálogo.</p>
+          </div>
+        </a>
+
+        <a href="{{ route('categories.index') }}" class="quick-action">
+          <span class="quick-icon">🗂️</span>
+          <div>
+            <strong>Gestionar categorías</strong>
+            <p>Crea y elimina categorías del ecommerce.</p>
           </div>
         </a>
 
         <a href="/product/" class="quick-action">
           <span class="quick-icon">🛒</span>
           <div>
-            <strong>Ver catálogo</strong>
-            <p>Revisar los productos publicados.</p>
-          </div>
-        </a>
-
-        <a href="/admin" class="quick-action">
-          <span class="quick-icon">📊</span>
-          <div>
-            <strong>Actualizar dashboard</strong>
-            <p>Recargar la vista general del panel.</p>
+            <strong>Ver productos</strong>
+            <p>Consulta el listado actual del catálogo.</p>
           </div>
         </a>
 
         <a href="/" class="quick-action">
           <span class="quick-icon">🌐</span>
           <div>
-            <strong>Ir al inicio</strong>
-            <p>Volver a la landing pública de TechMarket.</p>
+            <strong>Ir a la tienda</strong>
+            <p>Ver la landing pública de TechMarket.</p>
           </div>
         </a>
       </div>
@@ -120,11 +122,11 @@
 
       <ul class="admin-summary-list">
         <li>
-          <span>Productos visibles en tienda</span>
+          <span>Productos activos en catálogo</span>
           <strong>{{ $totalProducts ?? 0 }}</strong>
         </li>
         <li>
-          <span>Categorías registradas</span>
+          <span>Categorías disponibles</span>
           <strong>{{ $totalCategories ?? 0 }}</strong>
         </li>
         <li>
@@ -183,7 +185,9 @@
         </table>
       </div>
     @else
-      <div class="empty">No hay productos recientes para mostrar.</div>
+      <div class="empty">
+        No hay productos recientes para mostrar.
+      </div>
     @endif
   </section>
 
